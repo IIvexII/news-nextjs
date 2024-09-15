@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NavLink from "./nav-link";
 
 export function MainHeader() {
   return (
@@ -9,12 +10,10 @@ export function MainHeader() {
       >
         NextNews
       </Link>
-      <Link
-        href='/news'
-        className='text-xl text-gray-400 font-normal hover:bg-white hover:text-black rounded-md px-3 py-1 transition-all duration-300'
-      >
-        News
-      </Link>
+      <div className='flex flex-row gap-4'>
+        <NavLink href='/archive'>Archive</NavLink>
+        <NavLink href='/news'>News</NavLink>
+      </div>
     </header>
   );
 }
