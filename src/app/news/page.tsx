@@ -1,6 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
-
 import { DUMMY_NEWS } from "@/data/news";
 import NewsList from "@/components/news-list";
 
