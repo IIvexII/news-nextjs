@@ -2,23 +2,24 @@ import Image from "next/image";
 import { DUMMY_NEWS } from "@/data/news";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getNewsById } from "@/db/queries";
 
 interface NewsPageProps {
   params: {
-    slug: string;
+    id: string;
   };
 }
-export default function NewsPage({ params }: NewsPageProps) {
-  const news = DUMMY_NEWS.find((news) => news.slug === params.slug);
+export default async function NewsPage({ params }: NewsPageProps) {
+  const news = await getNewsById(params.id);
 
   if (!news) notFound();
 
   return (
     <article className='mt-8'>
-      <Link href={`/news/${news.slug}/photo`}>
+      <Link href={`/news/${news.id}/photo`}>
         <Image
           src={`/images/news/${news.image}`}
-          alt={news.slug}
+          alt={news.slug || ""}
           fill
           className='!relative object-cover !w-full !h-96 rounded-lg'
         />

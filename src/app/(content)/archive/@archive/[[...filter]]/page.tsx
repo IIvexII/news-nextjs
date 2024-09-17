@@ -1,21 +1,22 @@
 import NewsList from "@/components/news-list";
 import {
-  getNewsForYear,
   getAvailableNewsYears,
+  getNewsForYear,
   getAvailableNewsMonths,
   getNewsForYearAndMonth,
-} from "@/lib/news";
+} from "@/db/queries";
 import Link from "next/link";
 
-export default function ArchiveNewsByYear({ params }: { params: { filter: string[] | undefined } }) {
+export default async function ArchiveNewsByYear({ params }: { params: { filter: string[] | undefined } }) {
   const selectedYear = params.filter?.[0];
   const selectedMonth = params.filter?.[1];
-  let links: number[] = getAvailableNewsYears();
+  let links: number[] = await getAvailableNewsYears();
   let renderedNews = null;
 
   if (selectedYear && !selectedMonth) {
-    const news = getNewsForYear(+selectedYear);
-    links = getAvailableNewsMonths(+selectedYear);
+    // const news = getNewsForYear(+selectedYear);
+    const news = await getNewsForYear(+selectedYear);
+    links = await getAvailableNewsMonths(+selectedYear);
 
     if (news.length > 0) {
       renderedNews = <NewsList news={news} />;
@@ -23,7 +24,7 @@ export default function ArchiveNewsByYear({ params }: { params: { filter: string
       renderedNews = <p>No news found for the selected period.</p>;
     }
   } else if (selectedYear && selectedMonth) {
-    const news = getNewsForYearAndMonth(+selectedYear, +selectedMonth);
+    const news = await getNewsForYearAndMonth(+selectedYear, +selectedMonth);
     links = [];
     if (news.length > 0) {
       renderedNews = <NewsList news={news} />;
